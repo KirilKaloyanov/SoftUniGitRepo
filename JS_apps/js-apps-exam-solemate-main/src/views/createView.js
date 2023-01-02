@@ -1,0 +1,64 @@
+import { html } from '../library.js';
+import { createItem } from '../services/dataService.js';
+import { handler } from '../util/handler.js';
+
+export async function createTemplate(ctx) {
+    ctx.render(createView(handler(onCreate)));
+
+    async function onCreate(data) {
+        await createItem(data);
+        ctx.page.redirect('/dashboard');
+    }
+
+}
+
+function createView(onSubmit) {
+
+    return html`
+    <section id="create">
+          <div class="form">
+            <h2>Add item</h2>
+            <form class="create-form" @submit=${onSubmit}>
+              <input
+                type="text"
+                name="brand"
+                id="shoe-brand"
+                placeholder="Brand"
+              />
+              <input
+                type="text"
+                name="model"
+                id="shoe-model"
+                placeholder="Model"
+              />
+              <input
+                type="text"
+                name="imageUrl"
+                id="shoe-img"
+                placeholder="Image url"
+              />
+              <input
+                type="text"
+                name="release"
+                id="shoe-release"
+                placeholder="Release date"
+              />
+              <input
+                type="text"
+                name="designer"
+                id="shoe-designer"
+                placeholder="Designer"
+              />
+              <input
+                type="text"
+                name="value"
+                id="shoe-value"
+                placeholder="Value"
+              />
+
+              <button type="submit">post</button>
+            </form>
+          </div>
+        </section>
+    `
+}
